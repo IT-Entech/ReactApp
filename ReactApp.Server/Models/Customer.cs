@@ -5,8 +5,9 @@ namespace ReactApp.Server.Models
     public class Customer
     {
         [Key]
-        public string? appoint_no { get; set; }
+        public int id { get; set; }
         [Required]
+        public string? appoint_no { get; set; }
         public string? name { get; set; }
         public string? customer_name { get; set; }
         public string? email { get; set; }

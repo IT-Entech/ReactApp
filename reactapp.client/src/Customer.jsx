@@ -198,7 +198,7 @@ export function CustomerList() {
                                 </tr>
                             ) : (
                                     currentCustomers.map((customer) => (
-                                    <tr key={customer.appoint_no}>
+                                    <tr key={customer.id}>
                                         <td className="fw-bold">{customer.appoint_no}</td>
                                         <td className="fw-bold">{customer.name}</td>
                                         <td>{customer.customer_name}</td>

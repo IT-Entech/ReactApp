@@ -20,5 +20,6 @@ namespace ReactApp.Server.Data
         }
         public DbSet<Customer> appoint_head { get; set; } = null!;
         public DbSet<Quotation> cost_sheet_head { get; set; } = null!;
+        public DbSet<Waste> ms_waste_price_list { get; set; } = null!;
     }
 }

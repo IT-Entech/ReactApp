@@ -78,7 +78,8 @@ CASE WHEN remark IS NULL THEN '-'
 ELSE remark END AS remark,
    staff_id,
    CAST(year_no AS int) AS year_no,
- CAST(month_no AS int) AS month_no
+ CAST(month_no AS int) AS month_no,
+CAST(ROW_NUMBER() OVER (ORDER BY appoint_no DESC)AS int) AS id
 FROM adjusted_data
 WHERE adjusted_is_pre IS NULL OR adjusted_is_pre = 'Y'
 AND is_status != 'C'

@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from "react"
 import { Container, Row, Col, Card, Button, Form, Table, Badge, Dropdown, Modal, ProgressBar } from "react-bootstrap"
 import { FaFilter } from "react-icons/fa6";
 import { useQuotationsData } from "./Datahooks/useQuotationsData";
+import Select from "react-select"
+import { useWasteData } from "./Datahooks/useWasteData"
 import Filters from "./components/Filters";
 import CustomerPagination from "./components/Pagination"
 import GoogleMap from "./components/GoogleMap";
@@ -28,7 +30,9 @@ export function SalesList() {
     useEffect(() => {
         if (QuotationsData) setQuotations(QuotationsData)
     }, [QuotationsData])
-    
+
+
+   
 
     // 🔹 Pagination
     const [currentPage, setCurrentPage] = useState(1)
@@ -38,6 +42,10 @@ export function SalesList() {
     const [showAddModal, setShowAddModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
     const [selectedDeal, setSelectedDeal] = useState(null)
+
+    const { wasteOptions, loading: wasteLoading } = useWasteData(showAddModal)
+    const [selectedWastes, setSelectedWastes] = useState([])
+
     const [formData, setFormData] = useState({
         title: "",
         customer: "",
@@ -66,6 +74,7 @@ export function SalesList() {
         const newDeal = {
             id: Date.now().toString(),
             ...formData,
+            wastes: selectedWastes.map((w) => w.value),
             createdAt: new Date().toISOString().split("T")[0],
         }
         setQuotations([...quotations, newDeal])
@@ -107,6 +116,7 @@ export function SalesList() {
             expectedCloseDate: "",
             notes: "",
         })
+        setSelectedWastes([])
     }
 
     const getStageBadge = (stage) => {
@@ -157,7 +167,6 @@ export function SalesList() {
             totalCost,
         });
     }, [vehicleType]);
-
 
 
     return (
@@ -363,6 +372,20 @@ export function SalesList() {
                                     </Form.Select>
                                 </Form.Group>
                             </Col>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>♻️ รายการของเสีย</Form.Label>
+                                    <Select
+                                        isMulti
+                                        isLoading={wasteLoading}
+                                        options={wasteOptions}
+                                        value={selectedWastes}
+                                        onChange={setSelectedWastes}
+                                        placeholder="ค้นหาและเลือกของเสีย..."
+                                    />
+                                </Form.Group>
+                            </Col>
+
                             <Col md={6}>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Expected Close Date</Form.Label>
